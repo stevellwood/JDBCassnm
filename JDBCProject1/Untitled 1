@@ -1,0 +1,55 @@
+Assignment - Day 23 - Display and update the Student table in the TIY database
+
+Your assignment for today is to create a console application in Java that uses JDBC to interact with the Student
+ table in the TIY database to SELECT, INSERT, UPDATE, and DELETE data from the table.
+
+Details
+
+Because this requires that you create a new Java project, you should create the project in Java first, then 
+use Git to make that folder a repository. In case you forgot how to do that, here are the commands 
+assuming that you created the project in the C:\Java\JdbcProject folder:
+
+CD to C:\Java\JdbcProject folder
+type: git init<enter>
+type: git add .<enter>
+type: git commit -m "comment about the commit"
+Go to GitHub and create a new repository
+Copy the link to the new repository (*.git)
+Back to git
+type: git remote add origin <xxx.git>
+When submitting the assignment, get the URL to the GitHub repo and send that URL.
+
+What to do
+
+You are to do all four primary SQL commands in this assignment. You will be doing SELECT statments on t
+he student so it might be worthwhile to create a method that you can all because you'll do it multiple times. You should not put your user name and password in the Java source. Instead, use the properties file that was covered in class where needed.
+
+Insert a new student.
+First name is 'George'
+Last name is 'Washington'
+sat score is 1600
+gpa is 4.0
+no declared major
+Select the new student by first and last name and display all the details. This should display headings for each 
+of the columns values. It should look presentable.
+Update the new student changing the gpa to 3.5, the sat to 1450, and making the major 'General Business' 
+(of course you need to put the primary key value of General Business into the student.)
+Display the student details again showing the changes
+Delete the student using the student's last name and sat score
+Display the student details again showing the changes (the student should no longer exist and you should have 
+a presentable way of communicating that)
+Advanced Challenge
+
+Create a method in your program called backup(). In this method, you should read through ALL the data in the student table of the TIY database and write out formatted SQL INSERT statements that would allow you to recreate the data in that tables in case a DELETE from <tablename> is executed on the table.
+
+Test this by actually doing a DELETE from student and use your output to reload the table data.
+
+Pro Challenge
+
+Create a method in your program called backup(). In this method, you should read through ALL the tables in the TIY database and write out formatted SQL INSERT statements that would allow you to recreate the data in the tables in case a DELETE from <tablename> is executed on all the tables. Remember to produce the output in the proper sequence because of foreign keys.
+
+Test this by actually dropping the database, redoing the CREATE TABLEs then using your output to reload the data.
+
+Pro+ Challenge
+
+For the Pro+ challenge, you will need to use SQLs metadata to get a list of all the tables in the tiy database, then get the structure of those tables and create the CREATE TABLE commands to create those tables including the foreign keys in an empty database. Then use your work done in the pro challenge to load all the tables with data.
