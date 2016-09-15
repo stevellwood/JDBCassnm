@@ -1,6 +1,7 @@
 package JDBCfiles;
 import java.io.FileInputStream;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Properties;
 //import jdbcDemo.JDBCconnect.java;
 public class JDBCcommands {
@@ -14,6 +15,8 @@ public class JDBCcommands {
    static int id = 300;
    static String firstname; static String secondname;
    private double satInterimscore;
+   ArrayList<String> backupsarr = new ArrayList<>();
+   ArrayList<String> backupsarr2 = new ArrayList<>();
 
    public static void close(Connection con, Statement stmt) throws SQLException {
        if (con != null) {
@@ -157,12 +160,65 @@ public class JDBCcommands {
            //System.out.printf("%s %s,%s, %s, %d,%2.1f", start,rs.getString("first_name"),rs.getString("last_name"),rs.getString("major_id"),rs.getString("sat"),rs.getString("gpa"));
            System.out.printf("%s'%s','%s','%s',%d,%2.2f);%n", start,rs.getString("first_name"),rs.getString("last_name"),rs.getString("major_id"),psat,gpad);
                    //rs.getString("first_name"),rs.getString("last_name"),rs.getString("major_id"),rs.getString("sat"),rs.getString("gpa"));
+           
            //int rowAffected = stmt.executeQuery(sql);
            // 4. Process the result set
 //           } else  {
 //               System.out.println("Query not performed");
            }
           }
+        } catch (Exception exc) {
+           exc.printStackTrace();
+       } finally {
+           if (myConn != null) {
+               myConn.close();
+           }
+           if (stmt != null) {
+               stmt.close();
+           }
+       }
+   }
+   public void backupAll() throws SQLException {
+       try {
+           myConn = DriverManager.getConnection(JDBCconnect.thedburl,JDBCconnect.theuser,JDBCconnect.thepassword);
+           stmt = myConn.createStatement();             
+           //String sql = "delete from student where sat="+satInterimscore+" and"+ "last_name="+"'"+last+"'";
+           String[] myStringArray = {"student","class","major"};
+           String sql = "select * from student;";
+           //int rowAffected = stmt.executeUpdate(sql);
+           System.out.println();
+           rs =stmt.executeQuery(sql);
+           System.out.println("Backup Resultset for recreating Table student fields:First Name, Second Name, Major, Sat, GPA");
+           System.out.println("====================================================================================");
+           if (rs!=null){    
+           while(rs.next()){
+           String start ="insert student (first_name,last_name,major_id,sat,gpa) values (";
+           int psat = Integer.parseInt(rs.getString("sat"));
+           double gpad = Double.parseDouble(rs.getString("gpa"));
+           String insert = String.format("%s'%s','%s','%s',%d,%2.2f);", start,rs.getString("first_name"),rs.getString("last_name"),rs.getString("major_id"),psat,gpad);
+           backupsarr.add(insert);
+           }
+           
+           String sql2 = "select * from major;";
+           //int rowAffected = stmt.executeUpdate(sql);
+           System.out.println();
+           ResultSet rs =stmt.executeQuery(sql2);
+           System.out.println("Backup Resultset for recreating Table fields:ID, Major Name, MinSAT");
+           System.out.println("====================================================================================");
+           
+           if (rs!=null){    
+           while(rs.next()){
+           String start2 ="insert major (id,majorname,maj_minsat) values (";
+//           int minsat = Integer.parseInt(rs2.getString("maj_minsat"));
+           String insert2 = String.format("%s'%s','%s','%s');", start2,rs.getString("id"),rs.getString("majorname"),rs.getInt("maj_minsat"));
+           backupsarr.add(insert2);
+           
+          }
+           for(int i=0;i<backupsarr.size();i++){
+               System.out.println(backupsarr.get(i));
+           } 
+           }
+           }   
         } catch (Exception exc) {
            exc.printStackTrace();
        } finally {
@@ -184,7 +240,8 @@ public class JDBCcommands {
        connection2.displayStudent(firstname,secondname);
      connection2.update(firstname,secondname,3.5);
        connection2.deleteData(firstname,secondname);
-       connection2.backup();
+       //connection2.backup();
+       connection2.backupAll();
 
 
    }
