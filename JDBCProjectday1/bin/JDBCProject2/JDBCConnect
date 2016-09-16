@@ -1,0 +1,100 @@
+Day 24 - Assignment - Create the enrollment process for students
+
+With learning how to use parameters in your SQL statements with Java, you are ready to create an application 
+for your education database to actually enroll students and sign them up for classes.
+
+Prerequisite
+
+Because there was no requirement that all the table names and column names for everyone's database was the same, 
+it is very difficult to grade the assignment. Therefore, I want everyone to create a common database for this 
+assignment and use it for grading purposes.
+
+I have uploaded a SQL script to Slack that creates the common database objects. 
+To load it, do the following:
+
+Go into your SQL processor
+CREATE DATABASE tiy2;
+use tiy2;
+source <path_to_script>
+This should create all the tables and data that I can use to test your work.
+
+Submitting your assignment
+
+I would prefer that you put your project in a folder named Day24 under your Assignments repository and push to GitHub. It just makes it a little easier to pull it down to my machine and grade.
+
+Base Challenge (the standard assignment)
+
+NOTE: Make sure your using the database created in the Prerequisite section
+
+In this assignment, you are to create a Java project along with prepared SQL statements (required) and your education database to:
+
+Enroll a new student
+Assign a major to the new student
+Sign the new student up for four classes (at least two within their major)
+Display the following:
+Education System - Enrollment Process
+=====================================
+
+Enrolled [full name] as a new student.
+[full name] has an SAT score of [sat].
+Assigned [full name] to the [major description] which requires a required SAT score of [major sat requried]
+Enrolled [full name] in the following four classes:
+1. [class name] required for major
+2. [class name] required for major
+3. [class name] elective (not required for major)
+4. [class name] elective (not required for major)
+Enrolling a student
+
+There is no restriction in our educational institution for enrolling a new student. Any
+ student can be enrolled. They must be added to the student table.
+
+Assigning a major
+
+When assigning a major to a student, the rule is that a student must have a minimum
+ SAT score to be assigned a major. So, for example, if the requirements 
+ for the major is a SAT of 1000 and the student has a 900 SAT, they 
+ cannot enroll in that major. The minimum SAT score for the student would be the 1000.
+
+Enrolling a student in classes
+
+Once the student has been assigned a major, they are ready to enroll in classes.
+ A normal semester in our institution is for a student to enroll in
+  a minimum of four classes where AT LEAST two are within their major. The
+   other two can be in the major or not. You can assume that the student is
+    asking to be enrolled in a major, but if not qualifed by SAT, provide a
+ nice, friendly message to the student that they are not qualified for
+ that major and suggest they select another.
+
+Hint! As you can see from the assignment that you need to display the 
+FULL NAME of the student multiple times. It might be a good idea to create 
+a way to get the full name easily.
+
+Input data for the project
+
+New students to be enrolled:
+
+First Name	Last Name	SAT	GPA	Major
+Adam	Zapel	1200	3.0	Finance
+Graham	Krakir	500	2.5	General Studies
+Ella	Vader	800	3.0	Accounting
+Stanley	Kupp	1350	3.3	Engineering
+Lou	Zar	9500	3.0	Education
+Advanced Challenge
+
+While it is possible to achieve the base challenge by doing a series of indvidual SQL calls,
+ in practice, it is much better to create more significant SQL and do less Java where possible.
+
+For assigning the major, create SQL that provides the list of majors available for a given SAT score and display that list if the student asks for major they do not qualify for. Display something like this:
+
+Sorry, but a Math major requires a SAT of 1300.
+With a GPA of 1000, you may choose from the following majors:
+* General Business (800)
+* Accounting (1000)
+* Education (900)
+* General Studies (500)
+For enrolling in classes, create the INSERT statement that allows you to pass a class subject to do the insert.
+
+
+add Student(String firstname, STring lastname, int sat, major)
+
+.setNull(#,java.util.Types.Integer),

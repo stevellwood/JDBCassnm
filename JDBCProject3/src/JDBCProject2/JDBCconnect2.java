@@ -13,34 +13,39 @@ import java.sql.Connection;
 import com.mysql.jdbc.Statement;
 //the above have to be imported from lib
 
-
 public class JDBCconnect2 {
-
+    public static Db db = null;
        public static Connection myConn = null;
+       static String theuser;
        
+       static String thepassword; 
+       static String thedburl;
        static ResultSet rs = null;
 //       static String theuser;
 //      
 //       static String thepassword; 
 //       static String thedburl;
-      public static void connecttoDB() throws FileNotFoundException, IOException, SQLException {
+      public Connection connecttoDB() throws FileNotFoundException, IOException, SQLException {
           //load the props file
       try{
         Properties props= new Properties();
         FileInputStream fis = new FileInputStream("jdbcconnect2.properties");
          props.load(fis);     
         //2. read the props
-        String theuser= props.getProperty("user");
-       String thepassword = props.getProperty("password");
-       String thedburl= props.getProperty("dburl");
+       theuser= props.getProperty("user");
+       thepassword = props.getProperty("password");
+      thedburl= props.getProperty("dburl");
+      db = new Db(thedburl, theuser,thepassword);
         myConn = DriverManager.getConnection(thedburl, theuser, thepassword);
       //why does this need cast
-        
+        System.out.println( theuser+ thepassword +thedburl);
       } catch (Exception exc) {
+          System.out.println("connection not created1");
           exc.printStackTrace();
-      } 
+      }
+    return myConn; 
           
       
-      }
       
-}
+      }
+      }   

@@ -93,3 +93,8 @@ With a GPA of 1000, you may choose from the following majors:
 * Education (900)
 * General Studies (500)
 For enrolling in classes, create the INSERT statement that allows you to pass a class subject to do the insert.
+
+
+add Student(String firstname, STring lastname, int sat, major)
+
+.setNull(#,java.util.Types.Integer),

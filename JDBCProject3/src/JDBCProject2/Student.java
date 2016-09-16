@@ -8,12 +8,13 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class Student implements Comparable {
-    public String id;
+    int id;
     String firstName;
     String lastName;
     int sat;
     double gpa;
     String major;
+    private int major_id;
     private final static String MYID = "009999";
     public static ArrayList<Student> newstudents=null;//= new ArrayList<Student>(); 
     int count=0;
@@ -30,11 +31,11 @@ public class Student implements Comparable {
     }
     void fillArr(){
         String[][] enrollees = {
-                {"Adam", "Zapel", "1200", "3,0","Finance" }, 
+                {"Adam", "Zapel", "1200", "3.0","Finance" }, 
                 {"Graham", "Krakir",  "500", "2.5", "General Studies"},   
                 {"Ella",  "Vader",   "800", "3.0", "Accounting" },  
                 {"Stanley",   "Kupp",    "1350",    "3.3", "Engineering"},
-                {"Lou",   "Zar", "9500",    "3.0", "Education" },
+                {"Lou",   "Zar", "950",    "3.0", "Education" },
                 
             };
       
@@ -46,17 +47,62 @@ public class Student implements Comparable {
             student1.sat = Integer.parseInt(aStudent[2]);
             student1.gpa = Double.parseDouble(aStudent[3]);
             student1.major = aStudent[4];
+            newstudents.add(student1);
             count++;
             }
+        for(Student student : newstudents) {
+            System.out.println(student.firstName + student.lastName+ student.getFullName());
+           } System.out.println("end debugging from Student===================");
     }
-    //@Override
-//    public String toString() {
-//        //String str= "Student =" + this.firstName + " "+ this.lastName+ " "+this.id+ " "+ this.monthsEmployed+ " "+ this.eyeColor+"";
-//        String str2 =
-//                String.format("%6s  %12s   %13s  %-8s   %-3d", this.id, this.firstName, this.lastName,this.eyeColor,this.monthsEmployed);
-//        return str2;
-//    }//format(%-6s   %-16s %-16s   %-9s   %6d\n,)student.id, studelnt.first, studentlast, student..getClass().getName()..
-    //
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public String getFirstName() {
+        return firstName;
+    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+    public String getFullName() {
+        return getFirstName() + " " + getLastName();
+    }
+    
+    public int getSat() {
+        return sat;
+    }
+    public void setSat(int sat) {
+        this.sat = sat;
+    }
+    public double getGpa() {
+        return gpa;
+    }
+    public void setGpa(double gpa) {
+        this.gpa = gpa;
+    }
+    public String getMajor() {
+        return major;
+    }
+    public void setMajor(String major) {
+        this.major = major;
+    }
+    public int getMajor_id() {
+        return major_id;
+    }
+    
+    public void setMajor_id(int major_id) {
+        this.major_id = major_id;
+    }
+    
+    
     private  void rosterByFirstName() {
         Collections.sort(newstudents);
         this.printTop("Class Roster by First Name");
@@ -72,7 +118,8 @@ public class Student implements Comparable {
     void printNearestIds() {
         HashMap<String, Student> database = new HashMap<String, Student>();
         for(Student student : newstudents) {
-            database.put(student.id, student);//put each student in the db with the id as the uniqid
+            String sid = "+ student.id+";
+            database.put(sid, student);//put each student in the db with the id as the uniqid
             //in hashmaps, id's need to be all unique while the values can repeat
         }
         Set<String> ids = database.keySet();//create a new list of all the id's in the hashmap. Only sets can do this easily  http://stackoverflow.com/questions/12960265/retrieve-all-values-from-hashmap-keys-in-an-arraylist-java
@@ -114,11 +161,11 @@ public class Student implements Comparable {
         rosterByFirstName();
         printNearestIds();
     }
-//    public static void main(String[] args) {
-//        Student st = new Student();
-//        
-//       st.printClassRoster();
-//    }
+    public static void main(String[] args) {
+        Student st = new Student();
+        
+       //st.printClassRoster();
+    }
    
 }
 //In part1 of the assignment, you'll create a Student class. The class has the following data items which should be named as spelled as highlighted:

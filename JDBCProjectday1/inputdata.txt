@@ -1,0 +1,7 @@
+id = null
+1st = George
+2nd = Washington
+start = 2016-01-05
+major = \null
+sat = 1600
+gpa = 4.0
