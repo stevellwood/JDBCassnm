@@ -11,11 +11,16 @@ public class Mainline {
        
     }
     public void run(){
-        uml.createaMajor("Basket Weaving");
-        uml.deleteMajor("Basket Weaving");
-        uml.createaMajor("Basket Weaving");
-        uml.updateMajorDescription("Basket Weaving", "Advanced Basket Weaving");
+        uml.deleteMajor("testing");
+        uml.deleteMajor("Basketball");
+        uml.createaMajor("general");
+        uml.updateMajorDescription("general", "Basketball");
+        
+        uml.createaMajor("American Ninja Chess");
         uml.displayAllMajors();
+        uml.deleteMajor("American Ninja Chess");
+        uml.deleteMajor("Basketball");
+        //uml.deleteMajor("Basketball");
        
 //            InsertMajor("American Ninja Chess");
 //            InsertMajor("Renaissance Art of the Circle");

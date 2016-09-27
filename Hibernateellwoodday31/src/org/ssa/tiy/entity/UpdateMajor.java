@@ -1,7 +1,9 @@
 package org.ssa.tiy.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -10,9 +12,15 @@ import org.ssa.tiy.entity.Major;
 
 
 
-
-
 public class UpdateMajor {
+   //Major majo = new Major();
+    public static SessionFactory factory = new Configuration()
+            .configure("hibernate.cfg.xml")
+            .addAnnotatedClass(Major.class)
+            .buildSessionFactory();
+
+    Session session = factory.getCurrentSession();
+    
     public static void deleteMajor(int majid){
         SessionFactory factory=new  Configuration().configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Major.class)
@@ -34,11 +42,24 @@ public class UpdateMajor {
                 .buildSessionFactory();
         Session session=factory.getCurrentSession();
         try{
-            
             session.beginTransaction();
-            int mid= getMID(majordes);
-            Major major=session.get(Major.class, mid);//what is this fetching?
-            session.delete(major);//do we need this?
+//            sessionFactory = getHibernateTemplate().getSessionFactory();
+//            Session session = sessionFactory.getCurrentSession();
+//            Query query = session.createQuery("delete major where id= ...");
+//            query.setParameters("param1", value1);
+//            result = (Type) query.uniqueResult();
+//            session.beginTransaction();
+//            int mid= getMID(majordes);
+//            Query query = session.createQuery("delete major where id= "+mid);
+//            Major major=session.get(Major.class, mid);//what is this fetching?
+//            session.delete(major);//do we need this?
+            Query query = session.createQuery("from Major where description = :desc");
+            query.setParameter("desc", majordes);
+            //Major maj = (Major)query.list();
+            List<Major> majors= query.list();
+           // session.createQuery("delete "from Major where description = :desc").executeUpdate();
+            for (Major maj: majors)
+                session.delete(maj);
 //            session.createQuery("delete Major where id=9").executeUpdate();other way
             session.getTransaction().commit();  
         }finally{
@@ -53,9 +74,23 @@ public class UpdateMajor {
        
         try{
             //
+            
             session.beginTransaction();
-        Major md = (Major) session.createQuery("select id from Major where 'description'= "+ "'"+ majordes+ "'");
-        int id=md.getId();
+//          sessionFactory = getHibernateTemplate().getSessionFactory();
+//          Session session = sessionFactory.getCurrentSession();
+//          Query query = session.createQuery("delete major where id= ...");
+//          query.setParameters("param1", value1);
+//          result = (Type) query.uniqueResult();
+        //Major md = (Major) session.createQuery("select id from Major where 'description'= "+ "'"+ majordes+ "'");
+            String hql = "from Major where description= :nDesc";
+            System.out.println(hql);
+            Query query = session.createQuery(hql);
+            query.setParameter("nDesc", majordes);
+                      
+           // majo = (List<Major>) query.uniqueResult();
+            Major maj = (Major) query.uniqueResult();
+            int id=maj.getId();
+            
         session.getTransaction().commit();  
         return id;
         }finally{
@@ -68,11 +103,12 @@ public class UpdateMajor {
                 .addAnnotatedClass(Major.class)
                 .buildSessionFactory();
         Session session=factory.getCurrentSession();
+        Major majorn1= new Major(majordes);
         try{
-            Major majorn1= new Major(majordes);
+            
             session.beginTransaction();
             
-            System.out.println("New record"+majorn1);
+            System.out.println("New record into <major> table: "+majorn1);
             session.save(majorn1);//do we need this?
 //            session.createQuery("delete Major where id=9").executeUpdate();other way
             session.getTransaction().commit();  
@@ -99,15 +135,16 @@ public class UpdateMajor {
         }
     }
     public void displayAllMajors(){
-        SessionFactory factory=new  Configuration().configure("hibernate.cfg.xml")
-                .addAnnotatedClass(Major.class)
-                .buildSessionFactory();
-        Session session=factory.getCurrentSession();
+//        SessionFactory factory=new  Configuration().configure("hibernate.cfg.xml")
+//                .addAnnotatedClass(Major.class)
+//                .buildSessionFactory();
+//        Session session=factory.getCurrentSession();
     try{
         //
         session.beginTransaction();
-        //query student
-        List<Major> majors= session.createQuery("from Major").list();//??Select *?
+        //query student using hibernate query method
+        Query query= session.createQuery("from Major ");//??Select *?
+        List<Major> majors = query.list();
         ///Where does this arraylist exist?
         //dispaly student
         display(majors);
@@ -125,8 +162,12 @@ public class UpdateMajor {
         factory.close();
     }}
     private void display(List<Major> majors) {
-        for(Major std: majors)
-            System.out.println(std);
+        System.out.println("Major Id        Description       Required SAT");
+        System.out.println("********************************************** ");
+        for(Major maj: majors){
+            System.out.printf("%2d\t", maj.getId());
+        System.out.printf("%20s \t    ", maj.getDescription());
+        System.out.printf("%4d%n", maj.getRequiredSAT());
     }
-}
+    }}
 
